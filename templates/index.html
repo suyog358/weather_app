@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Weather App</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="weather-box">
+    <h2>Weather App</h2>
+    <form method="post">
+        <input type="text" name="city" placeholder="Enter city name" required>
+        <button type="submit">Get Weather</button>
+    </form>
+
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+
+    {% if weather %}
+        <hr>
+        <h3>Weather in {{ weather.city }}</h3>
+        <p><strong>Date/Time:</strong> {{ weather.datetime }}</p>
+        <p><strong>Temperature:</strong> {{ weather.temp }}°C</p>
+        <p><strong>Description:</strong> {{ weather.description }}</p>
+        <p><strong>Humidity:</strong> {{ weather.humidity }}%</p>
+        <p><strong>Wind Speed:</strong> {{ weather.wind_speed }} km/h</p>
+    {% endif %}
+
+    {% if forecast %}
+    <hr>
+    <h3>5-Day Forecast</h3>
+    <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+        {% for day in forecast %}
+            <div style="background-color: rgba(255,255,255,0.6); padding: 10px; border-radius: 10px; width: 100px; text-align: center;">
+                <p><strong>{{ day.date }}</strong></p>
+                <img src="http://openweathermap.org/img/wn/{{ day.icon }}@2x.png" alt="{{ day.description }}">
+                <p>{{ day.temp }}°C</p>
+                <p>{{ day.description }}</p>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+</div>
+
+</body>
+</html>
